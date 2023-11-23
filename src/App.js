@@ -1,11 +1,14 @@
 import './App.css';
-import {ethers, parseUnits} from "ethers";
+import {ethers} from "ethers";
 import NewsFeedABI from "./NewsFeedABI.json";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 function App() {
     const id = 1;
     const [score, setScore] = useState("score");
+    const navigate = useNavigate();
+    const goToNews = () => navigate("/news-feed");
     const getTrustScore = async () => {
         const provider = new ethers.BrowserProvider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
@@ -19,18 +22,17 @@ function App() {
         setScore(score.toString());
     }
 
-    const makePost = async () => {
+    const getSources = async () => {
         const provider = new ethers.BrowserProvider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
-        const signer = await provider.getSigner();
         const newsFeed = new ethers.Contract(
             "0x7a80CA1738092622E3f4564485e3B3DaBd27F680",
             NewsFeedABI,
-            signer
+            provider
         );
-        const amount = parseUnits("500000", "wei");
-        console.log(amount.toString());
-        await newsFeed.createPost("test", ["test_source1"], { value: amount });
+        const source = (await newsFeed.getPost(id))["6"].length;
+        console.log(source)
+        // setScore(score.toString());
     }
 
     const upvote = async () => {
@@ -47,11 +49,25 @@ function App() {
         // setScore(score.toString());
     }
 
+    const downvote = async () => {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const newsFeed = new ethers.Contract(
+            "0x7a80CA1738092622E3f4564485e3B3DaBd27F680",
+            NewsFeedABI,
+            signer
+        );
+        await newsFeed.vote(id, false);
+        // console.log(score);
+        // setScore(score.toString());
+    }
+
 
 
     return (
     <div className="App">
-      <button onClick={makePost} className="newsFeed">
+      <button className="newsFeed" onClick={goToNews}>
         go to news feed
       </button>
         <p className="trustScoreText">
@@ -63,14 +79,14 @@ function App() {
         <p className="sourcesText">
             sources
         </p>
-        <button className="sources">
+        <button onClick={getSources} className="sources">
             get sources
         </button>
         <div className="votingButtons">
             <button onClick={upvote} className="upvote">
                 upvote
             </button>
-            <button className="downvote">
+            <button onClick={downvote} className="downvote">
                 downvote
             </button>
         </div>
