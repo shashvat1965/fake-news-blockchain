@@ -1,5 +1,5 @@
 import './App.css';
-import {ethers} from "ethers";
+import {ethers, parseUnits} from "ethers";
 import NewsFeedABI from "./NewsFeedABI.json";
 import {useState} from "react";
 
@@ -17,6 +17,20 @@ function App() {
         const score = await newsFeed.getTrustFactor(id);
         console.log(score);
         setScore(score.toString());
+    }
+
+    const makePost = async () => {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const newsFeed = new ethers.Contract(
+            "0x7a80CA1738092622E3f4564485e3B3DaBd27F680",
+            NewsFeedABI,
+            signer
+        );
+        const amount = parseUnits("500000", "wei");
+        console.log(amount.toString());
+        await newsFeed.createPost("test", ["test_source1"], { value: amount });
     }
 
     const upvote = async () => {
@@ -37,7 +51,7 @@ function App() {
 
     return (
     <div className="App">
-      <button className="newsFeed">
+      <button onClick={makePost} className="newsFeed">
         go to news feed
       </button>
         <p className="trustScoreText">
