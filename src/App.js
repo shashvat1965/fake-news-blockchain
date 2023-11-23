@@ -1,23 +1,65 @@
-import logo from './logo.svg';
 import './App.css';
+import {ethers} from "ethers";
+import NewsFeedABI from "./NewsFeedABI.json";
+import {useState} from "react";
 
 function App() {
-  return (
+    const id = 1;
+    const [score, setScore] = useState("score");
+    const getTrustScore = async () => {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const newsFeed = new ethers.Contract(
+            "0x7a80CA1738092622E3f4564485e3B3DaBd27F680",
+            NewsFeedABI,
+            provider
+        );
+        const score = await newsFeed.getTrustFactor(id);
+        console.log(score);
+        setScore(score.toString());
+    }
+
+    const upvote = async () => {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const newsFeed = new ethers.Contract(
+            "0x7a80CA1738092622E3f4564485e3B3DaBd27F680",
+            NewsFeedABI,
+            signer
+        );
+        await newsFeed.vote(id, true);
+        // console.log(score);
+        // setScore(score.toString());
+    }
+
+
+
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+      <button className="newsFeed">
+        go to news feed
+      </button>
+        <p className="trustScoreText">
+            {score}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <button onClick={getTrustScore} className="trustFactor">
+            get trust factor
+        </button>
+        <p className="sourcesText">
+            sources
+        </p>
+        <button className="sources">
+            get sources
+        </button>
+        <div className="votingButtons">
+            <button onClick={upvote} className="upvote">
+                upvote
+            </button>
+            <button className="downvote">
+                downvote
+            </button>
+        </div>
     </div>
   );
 }

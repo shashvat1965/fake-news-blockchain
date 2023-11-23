@@ -1,5 +1,68 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.newsFeed{
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.trustScoreText{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+.trustFactor{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.sourcesText{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+.sources{
+display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.votingButtons{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: center;
+    margin-top: 200px;
+    gap: 300px;
+}
+
+.upvote{
+    height: 50px;
+    width: 100px;
+}
+
+.downvote{
+    height: 50px;
+    width: 100px;
 }
 
 .App-logo {
