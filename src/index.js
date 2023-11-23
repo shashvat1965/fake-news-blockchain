@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import NewsFeed from './NewsFeed';
+import CreatePostPage from './create_post.js';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 const router = createBrowserRouter([
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
         path: "/news-feed",
         element: <NewsFeed />,
     },
+    {
+        path: "/create-post",
+        element: <CreatePostPage />,
+    }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

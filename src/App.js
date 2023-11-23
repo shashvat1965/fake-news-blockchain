@@ -5,10 +5,12 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 function App() {
-    const id = 1;
     const [score, setScore] = useState("score");
     const navigate = useNavigate();
+    const [sources, setSources] = useState("sources");
+    const [id, setId] = useState(1);
     const goToNews = () => navigate("/news-feed");
+    const goToCreatePost = () => navigate("/create-post");
     const getTrustScore = async () => {
         const provider = new ethers.BrowserProvider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
@@ -30,9 +32,14 @@ function App() {
             NewsFeedABI,
             provider
         );
-        const source = (await newsFeed.getPost(id))["6"].length;
+        const source = (await newsFeed.getPost(id))["5"];
+        let sourceString = "";
+        for(let i = 0; i < source.length; i++) {
+            sourceString += source[i];
+            sourceString += ", ";
+        }
         console.log(source)
-        // setScore(score.toString());
+        setSources(sourceString);
     }
 
     const upvote = async () => {
@@ -45,8 +52,6 @@ function App() {
             signer
         );
         await newsFeed.vote(id, true);
-        // console.log(score);
-        // setScore(score.toString());
     }
 
     const downvote = async () => {
@@ -59,17 +64,28 @@ function App() {
             signer
         );
         await newsFeed.vote(id, false);
-        // console.log(score);
-        // setScore(score.toString());
+    }
+
+    const handleIdChange = (event) => {
+        setId(event.target.value);
     }
 
 
 
     return (
     <div className="App">
-      <button className="newsFeed" onClick={goToNews}>
-        go to news feed
-      </button>
+        <div className="navigationButtons">
+            <button className="newsFeed" onClick={goToNews}>
+                go to news feed
+            </button>
+            <button className="createPost" onClick={goToCreatePost}>
+                create post
+            </button>
+        </div>
+        <p> Article id: {id}</p>
+        <div>
+            <input type="text" value={id} onChange={handleIdChange}/>
+        </div>
         <p className="trustScoreText">
             {score}
         </p>
@@ -77,7 +93,7 @@ function App() {
             get trust factor
         </button>
         <p className="sourcesText">
-            sources
+            {sources}
         </p>
         <button onClick={getSources} className="sources">
             get sources

@@ -4,14 +4,48 @@
   flex-direction: column;
 }
 
-.newsFeed{
-    align-self: flex-start;
+.createPostPage{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 100px;
+}
+
+.submitButton {
+  margin-top: 50px;
+  height: 50px;
+  width: 100px;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.sources {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+
+.navigationButtons{
+    align-self: flex-start;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
     margin-top: 50px;
-    margin-left: 50px;
 }
 
 .trustScoreText{
@@ -19,7 +53,7 @@
     flex-direction: column;
     align-self: center;
     justify-content: center;
-    margin-top: 200px;
+    margin-top: 150px;
 }
 
 .trustFactor{
