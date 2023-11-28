@@ -20,7 +20,7 @@ export default function NewsFeed() {
     }, []);
 
     const fetchNews = async () => {
-        const response = await fetch("https://967a-103-144-92-180.ngrok-free.app/getAllPosts", {
+        const response = await fetch("https://acff-103-144-92-180.ngrok-free.app/getAllPosts", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
